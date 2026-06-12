@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchResource, usersApiUrl } from "./api.ts";
+import { fetchResource } from "./api.ts";
 
 function renderValue(value) {
   if (value === null || value === undefined) {
@@ -18,7 +18,10 @@ function renderValue(value) {
 }
 
 export default function Users() {
-  const apiPath = usersApiUrl;
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim();
+  const apiPath = codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev/api/users/`
+    : "/api/users/";
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

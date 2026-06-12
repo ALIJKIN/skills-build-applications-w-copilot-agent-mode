@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchResource, teamsApiUrl } from "./api.ts";
+import { fetchResource } from "./api.ts";
 
 function renderValue(value) {
   if (value === null || value === undefined) {
@@ -18,7 +18,10 @@ function renderValue(value) {
 }
 
 export default function Teams() {
-  const apiPath = teamsApiUrl;
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim();
+  const apiPath = codespaceName
+    ? `https://${codespaceName}-8000.app.github.dev/api/teams/`
+    : "/api/teams/";
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
