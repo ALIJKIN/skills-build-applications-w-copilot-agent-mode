@@ -30,7 +30,12 @@ export function normalizeApiResponse(body: unknown): ResourceItem[] {
 }
 
 export async function fetchResource(resource: string): Promise<ResourceItem[]> {
-  const url = `${apiBaseUrl}/${resource}`;
+  const normalizedResource = resource.startsWith("/api")
+    ? resource
+    : `/api/${resource.replace(/^\/+/, "")}/`;
+  const url = normalizedResource.startsWith("/api")
+    ? `${apiHost}${normalizedResource}`
+    : `${apiBaseUrl}${normalizedResource}`;
   const response = await fetch(url);
 
   if (!response.ok) {

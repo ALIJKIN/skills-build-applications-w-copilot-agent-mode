@@ -18,6 +18,7 @@ function renderValue(value: unknown) {
 }
 
 export default function Leaderboard() {
+  const apiPath = "/api/leaderboard/";
   const [items, setItems] = useState<ResourceItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -29,7 +30,7 @@ export default function Leaderboard() {
       try {
         setLoading(true);
         setError(null);
-        const data = await fetchResource("leaderboard");
+        const data = await fetchResource(apiPath);
         if (active) {
           setItems(data);
         }

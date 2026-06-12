@@ -18,6 +18,7 @@ function renderValue(value: unknown) {
 }
 
 export default function Teams() {
+  const apiPath = "/api/teams/";
   const [items, setItems] = useState<ResourceItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -29,7 +30,7 @@ export default function Teams() {
       try {
         setLoading(true);
         setError(null);
-        const data = await fetchResource("teams");
+        const data = await fetchResource(apiPath);
         if (active) {
           setItems(data);
         }

@@ -18,6 +18,7 @@ function renderValue(value: unknown) {
 }
 
 export default function Users() {
+  const apiPath = "/api/users/";
   const [items, setItems] = useState<ResourceItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -29,7 +30,7 @@ export default function Users() {
       try {
         setLoading(true);
         setError(null);
-        const data = await fetchResource("users");
+        const data = await fetchResource(apiPath);
         if (active) {
           setItems(data);
         }
