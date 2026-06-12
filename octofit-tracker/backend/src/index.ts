@@ -10,7 +10,7 @@ const app = express();
 const port = Number(process.env.PORT || 8000);
 const codespaceName = process.env.CODESPACE_NAME;
 const apiUrl = codespaceName
-  ? `https://${port}-${codespaceName}.githubpreview.dev`
+  ? `https://${codespaceName}-${port}.app.github.dev`
   : `http://localhost:${port}`;
 
 app.use(express.json());
@@ -24,17 +24,17 @@ app.get("/api/config", (_req, res) => {
   res.json({ apiUrl, codespaceName: codespaceName || null, port });
 });
 
-app.get("/api/users/", async (_req, res) => {
+app.get("/api/users", async (_req, res) => {
   const users = await User.find().lean();
   res.json(users);
 });
 
-app.get("/api/teams/", async (_req, res) => {
+app.get("/api/teams", async (_req, res) => {
   const teams = await Team.find().lean();
   res.json(teams);
 });
 
-app.get("/api/activities/", async (_req, res) => {
+app.get("/api/activities", async (_req, res) => {
   const activities = await Activity.find().populate("userId", "name email").lean();
   res.json(activities);
 });
@@ -53,7 +53,7 @@ connectDatabase()
   .then(() => {
     console.log(`OctoFit Tracker backend available at ${apiUrl}`);
     app.listen(port, () => {
-      console.log(`OctoFit Tracker backend listening on http://localhost:${port}`);
+      console.log(`OctoFit Tracker backend listening on ${apiUrl}`);
     });
   })
   .catch((error) => {
