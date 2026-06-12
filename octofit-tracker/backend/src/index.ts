@@ -1,5 +1,5 @@
 import express from "express";
-import mongoose from "mongoose";
+import { connectDatabase } from "./config/database";
 import { User } from "./models/user.model";
 import { Team } from "./models/team.model";
 import { Activity } from "./models/activity.model";
@@ -12,7 +12,6 @@ const codespaceName = process.env.CODESPACE_NAME;
 const apiUrl = codespaceName
   ? `https://${port}-${codespaceName}.githubpreview.dev`
   : `http://localhost:${port}`;
-const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/octofit_db";
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -50,10 +49,8 @@ app.get("/api/workouts/", async (_req, res) => {
   res.json(workouts);
 });
 
-mongoose
-  .connect(mongoUri)
+connectDatabase()
   .then(() => {
-    console.log(`Connected to MongoDB at ${mongoUri}`);
     console.log(`OctoFit Tracker backend available at ${apiUrl}`);
     app.listen(port, () => {
       console.log(`OctoFit Tracker backend listening on http://localhost:${port}`);
