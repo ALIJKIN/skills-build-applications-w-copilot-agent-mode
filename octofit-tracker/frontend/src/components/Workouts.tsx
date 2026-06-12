@@ -1,0 +1,91 @@
+import { useEffect, useState } from "react";
+import { fetchResource, ResourceItem } from "./api";
+
+function renderValue(value: unknown) {
+  if (value === null || value === undefined) {
+    return "—";
+  }
+
+  if (Array.isArray(value)) {
+    return value.join(", ");
+  }
+
+  if (typeof value === "object") {
+    return JSON.stringify(value);
+  }
+
+  return String(value);
+}
+
+export default function Workouts() {
+  const [items, setItems] = useState<ResourceItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+
+    async function load() {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await fetchResource("workouts");
+        if (active) {
+          setItems(data);
+        }
+      } catch (caught) {
+        if (active) {
+          setError(caught instanceof Error ? caught.message : String(caught));
+        }
+      } finally {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    }
+
+    load();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  return (
+    <section className="resource-view">
+      <h2>Workouts</h2>
+      <p>Workout plans and exercise sessions from the backend.</p>
+
+      {loading && <p>Loading workouts...</p>}
+      {error && <p className="error">{error}</p>}
+      {!loading && !error && items.length === 0 && <p>No workouts found.</p>}
+
+      {!loading && !error && items.length > 0 && (
+        <div className="resource-table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Duration (min)</th>
+                <th>Difficulty</th>
+                <th>Focus</th>
+                <th>Equipment</th>
+              </tr>
+            </thead>
+            <tbody>
+              {items.map((workout, index) => (
+                <tr key={String(workout._id ?? workout.id ?? index)}>
+                  <td>{renderValue(workout.name)}</td>
+                  <td>{renderValue(workout.durationMin)}</td>
+                  <td>{renderValue(workout.difficulty)}</td>
+                  <td>{renderValue(workout.focus)}</td>
+                  <td>{renderValue(workout.equipment)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  );
+}

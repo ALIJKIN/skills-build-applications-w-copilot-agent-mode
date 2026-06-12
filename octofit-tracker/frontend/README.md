@@ -70,4 +70,22 @@ export default defineConfig([
     },
   },
 ])
+
+## Local environment variables
+
+This frontend reads `VITE_CODESPACE_NAME` through `import.meta.env`.
+
+Create `frontend/.env.local` and set:
+
+```env
+VITE_CODESPACE_NAME=your-codespace-name
+```
+
+When the variable is defined, the app targets:
+
+```text
+https://${import.meta.env.VITE_CODESPACE_NAME}-8000.app.github.dev/api/[component]/
+```
+
+If `VITE_CODESPACE_NAME` is unset, the app falls back to `http://localhost:8000/api` to avoid invalid URLs such as `https://undefined-8000.app.github.dev`.
 ```
