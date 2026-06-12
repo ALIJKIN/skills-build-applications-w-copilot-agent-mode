@@ -7,6 +7,22 @@ export const apiHost = codespaceName
   : "http://localhost:8000";
 export const apiBaseUrl = `${apiHost}/api`;
 
+export const activitiesApiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/activities/`
+  : "http://localhost:8000/api/activities/";
+export const leaderboardApiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/leaderboard/`
+  : "http://localhost:8000/api/leaderboard/";
+export const teamsApiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/teams/`
+  : "http://localhost:8000/api/teams/";
+export const usersApiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/users/`
+  : "http://localhost:8000/api/users/";
+export const workoutsApiUrl = codespaceName
+  ? `https://${codespaceName}-8000.app.github.dev/api/workouts/`
+  : "http://localhost:8000/api/workouts/";
+
 export function normalizeApiResponse(body: unknown): ResourceItem[] {
   if (Array.isArray(body)) {
     return body;

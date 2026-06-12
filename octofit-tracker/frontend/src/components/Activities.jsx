@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchResource } from "./api.ts";
+import { fetchResource, activitiesApiUrl } from "./api.ts";
 
 function renderValue(value) {
   if (value === null || value === undefined) {
@@ -18,7 +18,7 @@ function renderValue(value) {
 }
 
 export default function Activities() {
-  const apiPath = "/api/activities/";
+  const apiPath = activitiesApiUrl;
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

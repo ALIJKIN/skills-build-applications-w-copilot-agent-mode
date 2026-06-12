@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchResource } from "./api.ts";
+import { fetchResource, usersApiUrl } from "./api.ts";
 
 function renderValue(value) {
   if (value === null || value === undefined) {
@@ -18,7 +18,7 @@ function renderValue(value) {
 }
 
 export default function Users() {
-  const apiPath = "/api/users/";
+  const apiPath = usersApiUrl;
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
