@@ -4,7 +4,12 @@
 venv
 
 # octofit tracker app
-# octfit-tracker
+octofit-tracker/backend/node_modules
+octofit-tracker/frontend/node_modules
+octofit-tracker/backend/dist
+octofit-tracker/frontend/dist
+octofit-tracker/backend/.env
+octofit-tracker/frontend/.env
 
 # React node_modules
 node_modules
